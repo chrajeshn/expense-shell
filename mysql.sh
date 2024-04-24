@@ -11,7 +11,7 @@ Y="\e[33m"
 N="\e[om"
 
 VALIDATE(){
-    if [ $1 -ne 0]
+    if [ $1 -ne 0 ]
     then
         echo -e "$2...$R FAILURE $N"
         exit 1
