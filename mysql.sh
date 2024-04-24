@@ -10,8 +10,8 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-# echo "Please enter DB password:"
-# read mysql_root_password
+echo "Please enter DB password:"
+read mysql_root_password
 
 VALIDATE(){
     if [ $1 -ne 0 ]
@@ -44,11 +44,11 @@ VALIDATE $? "Starting MySQl Server"
 #  VALIDATE $? "Setting up root password"
 
 #Below code will be useful for idempotent nature
-mysql -h db.crn503.online -uroot -pExpenseApp@1 -e 'show databases;' &>>$LOGFILE
+mysql -h db.crn503.online -uroot -p${mysql_root_password} -e 'show databases;' &>>$LOGFILE
 
 if [ $? -ne 0 ]
 then 
-    mysql_secure_installation --set-root-pass ExpenseApp@1} &>>$LOGFILE
+    mysql_secure_installation --set-root-pass ${mysql_root_password} &>>$LOGFILE
     VALIDATE $? "MySQL Root Password setup"
 else
     echo -e "MYSQL Root Paasword is alreday setup..$Y SKIPPING $N"
