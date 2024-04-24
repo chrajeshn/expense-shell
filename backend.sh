@@ -46,13 +46,13 @@ id expense &>>$LOGFILE
 
 if [ $? -ne 0 ]
  then
-     useradd expense &>>$LOGFIL
+     useradd expense &>>$LOGFILE
      VALIDATE $? "Creating expense user"
  else
      echo -e "Expense user alreday created... $Y SKIPPING $N"
 fi
 
-mkdir -p /app &>>$LOGFIL
+mkdir -p /app &>>$LOGFILE
 VALIDATE $? "Creating app directory"
 
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
@@ -63,28 +63,28 @@ rm -rf /app/*
 unzip /tmp/backend.zip
 VALIDATE $? "Extracting backend code"
 
-npm install &>>$LOGFIL
+npm install &>>$LOGFILE
 VALIDATE $? "Installing nodejs dependencise"
 
-cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service &>>$LOGFIL
+cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service &>>$LOGFILE
 VALIDATE $? "Copied backend service"
 
-systemctl daemon-reload &>>$LOGFIL
+systemctl daemon-reload &>>$LOGFILE
 VALIDATE $? "Daemon Reload"
 
-systemctl start backend &>>$LOGFIL
+systemctl start backend &>>$LOGFILE
 VALIDATE $? "Start Backend"
 
-systemctl enable backend &>>$LOGFIL
+systemctl enable backend &>>$LOGFILE
 VALIDATE $? "Enable Backend"
 
-dnf install mysql -y &>>$LOGFIL
+dnf install mysql -y &>>$LOGFILE
 VALIDATE $? "Installing MySQL Clien"
 
-mysql -h db.crn503.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFIL
+mysql -h db.crn503.online -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
 VALIDATE $? "Schema Loading"
 
-systemctl restart backend &>>$LOGFIL
+systemctl restart backend &>>$LOGFILE
 VALIDATE $? "Restart Backend"
 
 
